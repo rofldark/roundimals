@@ -222,14 +222,13 @@ export const SPECIES = {
     palette: { fur: '#7A4B33', furShade: '#6A3F2A', light: '#F4CDA5', inner: '#F4CDA5', feature: '#5A3220', nose: '#5A3220', pattern: '#5A3220' },
   },
   capybara: {
-    // a wider, flatter, boxier head with a big blunt muzzle and tiny ears
+    // a wider, boxier head; a big blunt muzzle one step DARKER than the fur, slanted nostrils, a split smile
     ears: 'round',
     earR: 11,
     head: { x: -56, y: -52, w: 112, h: 106, r: 32 },
-    muzzle: { w: 86, h: 44 },
-    nostrils: true,
+    snout: true,
     body: 144,
-    palette: { fur: '#C0824F', furShade: '#AE7343', light: '#E9C29A', inner: '#8E5A33', feature: '#5C3618', nose: '#5C3618', pattern: '#8E5A33' },
+    palette: { fur: '#C0824F', furShade: '#AE7343', light: '#E9C29A', inner: '#9C6237', feature: '#4A2812', nose: '#4A2812', pattern: '#9C6237' },
   },
 };
 
@@ -293,8 +292,10 @@ function eye(side, e, p, around) {
 }
 
 /** The mouth, on the muzzle under the nose, pulled a little to one side. */
-function mouth(e, p) {
+function mouth(e, p, sp) {
   const out = [];
+  // the capybara's split lip: a short line down from the nose, every mouth hangs from it
+  if (sp.snout) out.push(line(e.mouth === 'smile' ? 'M0 18V29' : 'M0 18V27', p.feature, FEATURE_W));
   const open = (x0, x1, top, depth, tilt) => {
     const mid = (x0 + x1) / 2;
     out.push(fill(`M${x0} ${top}L${x1} ${top - tilt}Q${x1 + 1} ${top + depth} ${mid} ${top + depth}Q${x0 - 1} ${top + depth} ${x0} ${top}Z`, p.mouth));
@@ -303,7 +304,9 @@ function mouth(e, p) {
   };
   switch (e.mouth) {
     case 'smile':
-      out.push(line('M-10 33Q1 42 12 31', p.feature, FEATURE_W));
+      // the capybara smiles with both halves of the split lip
+      if (sp.snout) out.push(line('M-13 30Q-6 37 0 29Q6 37 13 30', p.feature, FEATURE_W));
+      else out.push(line('M-10 33Q1 42 12 31', p.feature, FEATURE_W));
       break;
     case 'laugh':
       // a big smile on an animal is an open mouth: white teeth alone vanish on the light muzzle
@@ -390,11 +393,15 @@ export function head(sp, e, p) {
     }
   }
   if (sp.cheeks) out.push(fill(circle(-41, 33, 19), p.light), fill(circle(41, 33, 19), p.light));
-  const mz = sp.muzzle ?? MUZZLE;
-  if (!sp.mask && !sp.patches) out.push(fill(pill(0, MUZZLE.y, mz.w, mz.h), p.light));
-  if (sp.nostrils) out.push(fill(pill(-9, 19, 8, 11), p.nose), fill(pill(9, 19, 8, 11), p.nose));
-  else out.push(fill(rtri([-10, 15], [10, 15], [0, 25], 4), p.nose));
-  out.push(...mouth(e, p));
+  if (sp.snout) {
+    // a blunt, boxy snout in the darker pattern color, with two flat nostrils (slanted ones read as angry brows)
+    out.push(fill(rrect(-42, 6, 84, 46, 21), p.pattern));
+    out.push(fill(pill(-9, 15, 11, 6), p.nose), fill(pill(9, 15, 11, 6), p.nose));
+  } else {
+    if (!sp.mask && !sp.patches) out.push(fill(pill(0, MUZZLE.y, MUZZLE.w, MUZZLE.h), p.light));
+    out.push(fill(rtri([-10, 15], [10, 15], [0, 25], 4), p.nose));
+  }
+  out.push(...mouth(e, p, sp));
   if (e.tear) out.push(...tear(p));
   if (sp.ears === 'floppy') {
     for (const s of [-1, 1]) out.push(line(`M${s * 50} -44L${s * 61} 2`, p.pattern, 34));

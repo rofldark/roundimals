@@ -58,7 +58,7 @@ Each animal is told by its signature shapes. Keep them big and few.
 | Rabbit | Long capsule ears (30 thick, about 0.9 x the head long), pink inner capsule | Light muzzle, pink nose | Light cotton circle | 128 |
 | Panda | Round dark ears (r 19), no inner | White head without a muzzle; two dark eye patches: tilted pills (37 x 52) whose bottoms point outward, with a gap between them. Body, arms and feet are dark, the belly white | None | 140 |
 | Monkey | Round ears on the sides of the head (r 20, at eye height), light inner | Light face mask: two circles around the eyes plus a wide muzzle pill, one shape in one color | Long thin capsule curling up | 128 |
-| Capybara | Tiny round ears (r 11) at the top corners | Its own head: wider, flatter, boxier (112 x 106, corner radius 32); a wide muzzle (86 x 44) with two nostril pills instead of the triangle nose | None | 144 |
+| Capybara | Tiny round ears (r 11) at the top corners | Its own head: wider, flatter, boxier (112 x 106, corner radius 32). A blunt, boxy snout (84 x 46, radius 21) one step **darker** than the fur, two flat nostril pills, and a split lip: a short line down from the nose that every mouth hangs from; the smile is a "ω" | None | 144 |
 
 - **Ears behind, except floppy ones.** Upright ears, the mane and the inner ears are drawn before the head. Floppy dog ears hang in front of the head, at its sides, and must not touch the eyes.
 - **The tail goes on the side opposite the gesturing arm** (the kit puts it on the left of the image). A tail next to a raised or crossing arm turns into a tangle.
@@ -154,7 +154,7 @@ The kit's eight poses cover the usual app moments:
 | Rabbit | #F2D3B6 | #FFFFFF | inner ear #FFB2B2 | #F57F86 |
 | Panda | #FFFFFF (head, belly) | #FFFFFF | body, ears, patches #3D3B4F | #3D3B4F |
 | Monkey | #7A4B33 | face mask #F4CDA5 | #5A3220 | #5A3220 |
-| Capybara | #C0824F | #E9C29A | #8E5A33 | #5C3618 |
+| Capybara | #C0824F | belly #E9C29A | snout #9C6237 | #4A2812 |
 
 **Each animal has:** fur, furShade (one step darker), light (muzzle, belly, inner ear), feature (closed eyes, mouth strokes), nose, pattern (mane, stripes, floppy ears), inner (inner ear). Face colors are fixed: eye white #FFFFFF, pupil #3C3C3C, open mouth #B03A3A, tongue #F15A5A, tear #7FD4FF.
 
@@ -203,7 +203,9 @@ Tested fantasy starting points (the kit's `FANTASY` names): blue #1CB0F6, purple
 | Eyes nibbled from below | Hamster cheeks placed too high | Cheeks lower (center y 33), only touching the eye's bottom edge |
 | A panda in glasses | Upright eye patches touching in the middle | Patches tilted (bottoms outward) with a gap between them |
 | A white panda vanished on a light app background | White body, only arms dark | Dark body with a white belly, like a real panda |
-| A capybara that read as a bear | Same round head and triangle nose as the bear | Wider, boxier head, long wide muzzle, two nostrils, tiny ears |
+| A capybara that read as a bear | Same round head and light muzzle as the bear | Wider, boxier head, a darker blunt snout, split lip with a "ω" smile, tiny ears |
+| A capybara that read as a pig | Two round nostril dots on a light muzzle | Flat nostril pills on a darker snout |
+| An angry capybara | Nostrils slanted like a "\ /" | Flat, horizontal nostrils |
 | A gray cat looked lifeless and off-style | Gray fur | Cool pastel (lilac-blue) fur, pink inner ear and nose |
 | A ball on the shoulder | The arm's round end at the torso's top corner | Shoulder lower and further in, fully inside the torso |
 
