@@ -155,7 +155,7 @@ export function paletteFromColor(hex) {
   };
 }
 
-// ── the seven animals ───────────────────────────────────────────────────────
+// ── the ten animals ─────────────────────────────────────────────────────────
 /**
  * Each animal changes only a few big shapes on the shared body: the ears,
  * the markings on the head, the tail, sometimes the torso width. Natural
@@ -205,6 +205,32 @@ export const SPECIES = {
     tail: 'puff',
     palette: { fur: '#F2D3B6', furShade: '#E6C19E', light: '#FFFFFF', inner: '#FFB2B2', feature: '#9A6440', nose: '#F57F86', pattern: '#E6C19E' },
   },
+  panda: {
+    // white head and belly; ears, eye patches, body, arms and feet in the dark pattern color
+    ears: 'round',
+    earR: 19,
+    dark: true,
+    patches: true,
+    body: 140,
+    palette: { fur: '#FFFFFF', furShade: '#F2F0FA', light: '#FFFFFF', inner: '#3D3B4F', feature: '#3D3B4F', nose: '#3D3B4F', pattern: '#3D3B4F' },
+  },
+  monkey: {
+    // a light face mask (two eye circles plus a wide muzzle), ears on the sides
+    ears: 'side',
+    mask: true,
+    tail: 'long',
+    palette: { fur: '#7A4B33', furShade: '#6A3F2A', light: '#F4CDA5', inner: '#F4CDA5', feature: '#5A3220', nose: '#5A3220', pattern: '#5A3220' },
+  },
+  capybara: {
+    // a wider, flatter, boxier head with a big blunt muzzle and tiny ears
+    ears: 'round',
+    earR: 11,
+    head: { x: -56, y: -52, w: 112, h: 106, r: 32 },
+    muzzle: { w: 86, h: 44 },
+    nostrils: true,
+    body: 144,
+    palette: { fur: '#C0824F', furShade: '#AE7343', light: '#E9C29A', inner: '#8E5A33', feature: '#5C3618', nose: '#5C3618', pattern: '#8E5A33' },
+  },
 };
 
 /** Fantasy colors that are tested to read well, by name. */
@@ -233,11 +259,13 @@ const CUTS = {
   sad: { lid: [-4, -17] },
 };
 
-function eye(side, e, p) {
+function eye(side, e, p, around) {
   const cx = side * EYE.x;
   const cy = EYE.y;
   const [lx, ly] = e.look ?? [0, 0];
-  if (e.eyes === 'closedHappy') return [line(`M${cx - 10} ${cy + 5}Q${cx} ${cy - 9} ${cx + 10} ${cy + 5}`, p.feature, FEATURE_W)];
+  // a closed eye on a dark eye patch is light, everywhere else the feature color
+  const closed = around === p.pattern ? p.light : p.feature;
+  if (e.eyes === 'closedHappy') return [line(`M${cx - 10} ${cy + 5}Q${cx} ${cy - 9} ${cx + 10} ${cy + 5}`, closed, FEATURE_W)];
   const out = [fill(pill(cx, cy, EYE.w, EYE.h), p.eyeWhite)];
   const wide = e.eyes === 'wide';
   const pw = wide ? 9 : EYE.pw;
@@ -248,15 +276,18 @@ function eye(side, e, p) {
   // the shine dot, on the same side in both eyes
   out.push(fill(circle(px - pw * 0.22, top + EYE.shine + 1.5, EYE.shine), p.eyeWhite));
   const cut = { ...(CUTS[e.eyes] ?? {}), ...(e.cheek ? { cheek: [9, 13] } : {}) };
-  const xo = cx + side * (EYE.w / 2 + 2);
-  const xi = cx - side * (EYE.w / 2 + 2);
+  // cuts stay inside the eye's box and take the color around the eye (fur, a face mask or an eye patch)
+  const xo = cx + side * (EYE.w / 2 + 0.5);
+  const xi = cx - side * (EYE.w / 2 + 0.5);
+  const yt = cy - EYE.h / 2 - 0.5;
+  const yb = cy + EYE.h / 2 + 0.5;
   if (cut.lid) {
     const [o, i] = cut.lid;
-    out.push(fill(`M${xo} ${cy - EYE.h}L${xi} ${cy - EYE.h}L${xi} ${cy + i}L${xo} ${cy + o}Z`, p.fur));
+    out.push(fill(`M${xo} ${yt}L${xi} ${yt}L${xi} ${cy + i}L${xo} ${cy + o}Z`, around));
   }
   if (cut.cheek) {
     const [o, i] = cut.cheek;
-    out.push(fill(`M${xo} ${cy + o}L${xi} ${cy + i}L${xi} ${cy + EYE.h}L${xo} ${cy + EYE.h}Z`, p.fur));
+    out.push(fill(`M${xo} ${cy + o}L${xi} ${cy + i}L${xi} ${yb}L${xo} ${yb}Z`, around));
   }
   return out;
 }
@@ -318,8 +349,11 @@ function headBack(sp, p) {
       out.push(fill(rtri(...mx(s, [[-38, -46], [-36, -82], [-16, -60]]), 5), p.inner));
     } else if (sp.ears === 'round') {
       const r = sp.earR;
-      out.push(fill(circle(s * 38, -48, r), p.fur));
-      out.push(fill(circle(s * 39, -51, r * 0.52), p.inner));
+      out.push(fill(circle(s * 38, -48, r), sp.dark ? p.pattern : p.fur));
+      if (!sp.dark) out.push(fill(circle(s * 39, -51, r * 0.52), p.inner));
+    } else if (sp.ears === 'side') {
+      out.push(fill(circle(s * 55, -4, 20), p.fur));
+      out.push(fill(circle(s * 57, -4, 11), p.inner));
     } else if (sp.ears === 'long') {
       out.push(line(`M${s * 20} -48L${s * 30} -140`, p.fur, 30));
       out.push(line(`M${s * 21.5} -62L${s * 28.5} -128`, p.inner, 13));
@@ -330,9 +364,21 @@ function headBack(sp, p) {
 
 /** The head with the markings, the face and the ears that hang in front. */
 export function head(sp, e, p) {
-  const out = [fill(rrect(HEAD.x, HEAD.y, HEAD.w, HEAD.h, HEAD.r), p.fur)];
-  // eyes first: their cuts are fur-colored, so everything light goes on top of them
-  out.push(...eye(-1, e, p), ...eye(1, e, p));
+  const hd = sp.head ?? HEAD;
+  const out = [fill(rrect(hd.x, hd.y, hd.w, hd.h, hd.r), p.fur)];
+  let around = p.fur;
+  if (sp.patches) {
+    // eye patches: tilted pills, bottoms pointing outward, big enough to hold every eye cut
+    for (const s of [-1, 1]) out.push(g(`rotate(${s * -22} ${s * (EYE.x + 4)} ${EYE.y + 3})`, fill(pill(s * (EYE.x + 4), EYE.y + 3, 37, 52), p.pattern)));
+    around = p.pattern;
+  }
+  if (sp.mask) {
+    // the face mask: two circles around the eyes and a wide muzzle, one light shape
+    out.push(fill(circle(-EYE.x, EYE.y, 23), p.light), fill(circle(EYE.x, EYE.y, 23), p.light), fill(pill(0, 26, 80, 50), p.light));
+    around = p.light;
+  }
+  // eyes next: their cuts take the color around them, so the light shapes go on top
+  out.push(...eye(-1, e, p, around), ...eye(1, e, p, around));
   if (sp.stripes) {
     // forehead and cheek stripes: rounded triangles that start at the head's edge
     out.push(fill(rtri([-6, -55], [6, -55], [0, -36], 2.5), p.pattern));
@@ -344,8 +390,10 @@ export function head(sp, e, p) {
     }
   }
   if (sp.cheeks) out.push(fill(circle(-41, 33, 19), p.light), fill(circle(41, 33, 19), p.light));
-  out.push(fill(pill(0, MUZZLE.y, MUZZLE.w, MUZZLE.h), p.light));
-  out.push(fill(rtri([-10, 15], [10, 15], [0, 25], 4), p.nose));
+  const mz = sp.muzzle ?? MUZZLE;
+  if (!sp.mask && !sp.patches) out.push(fill(pill(0, MUZZLE.y, mz.w, mz.h), p.light));
+  if (sp.nostrils) out.push(fill(pill(-9, 19, 8, 11), p.nose), fill(pill(9, 19, 8, 11), p.nose));
+  else out.push(fill(rtri([-10, 15], [10, 15], [0, 25], 4), p.nose));
   out.push(...mouth(e, p));
   if (e.tear) out.push(...tear(p));
   if (sp.ears === 'floppy') {
@@ -365,6 +413,8 @@ function tail(sp, p) {
       return [line('M-44 150L-98 150L-112 120', p.fur, 12), fill(circle(-113, 114, 15), p.pattern)];
     case 'puff':
       return [fill(circle(-64, 150, 17), p.light)];
+    case 'long':
+      return [line('M-44 152L-104 150L-112 70', p.fur, 15)];
     default:
       return [];
   }
@@ -374,7 +424,9 @@ function tail(sp, p) {
 function torso(sp, p, clothes, bottom = BODY.bottom) {
   const w = sp.body ?? BODY.w;
   if (!clothes) {
-    return [fill(tomb(0, BODY.top, w, bottom - BODY.top, BODY.r), p.fur), fill(pill(0, 120, w * 0.56, Math.min(74, bottom - 84)), p.light)];
+    // a panda's body is dark with a white belly: it joins the dark arms and keeps the panda readable on light backgrounds
+    const body = sp.dark ? p.pattern : p.fur;
+    return [fill(tomb(0, BODY.top, w, bottom - BODY.top, BODY.r), body), fill(pill(0, 120, w * 0.56, Math.min(74, bottom - 84)), p.light)];
   }
   const out = [];
   if (clothes.kind === 'hoodie') out.push(fill(pill(0, 58, 74, 24), clothes.shade));
@@ -383,8 +435,9 @@ function torso(sp, p, clothes, bottom = BODY.bottom) {
   return out;
 }
 
-function feet(p) {
-  return [fill(pill(-FEET.x, FEET.y, FEET.w, FEET.h), p.fur), fill(pill(FEET.x, FEET.y, FEET.w, FEET.h), p.fur)];
+function feet(sp, p) {
+  const c = sp.dark ? p.pattern : p.fur;
+  return [fill(pill(-FEET.x, FEET.y, FEET.w, FEET.h), c), fill(pill(FEET.x, FEET.y, FEET.w, FEET.h), c)];
 }
 
 /** A floor shadow: a pill, never an oval. */
@@ -449,15 +502,17 @@ const hanging = (side, x = 74) => ({ from: [side * S.x, S.y], to: [side * x, 150
  * and belly, feet, mane and ears, head, front arms (paws on top).
  */
 function fullBody(sp, e, p, arms, clothes) {
+  // a panda's arms and paws are dark: the pattern color, with no lighter or darker step
+  const pa = sp.dark ? { ...p, fur: p.pattern, furShade: p.pattern } : p;
   return [
     floorShadow(0, 186, 150),
     ...tail(sp, p),
-    ...arms.filter((a) => !a.front).flatMap((a) => arm(a, p, clothes)),
+    ...arms.filter((a) => !a.front).flatMap((a) => arm(a, pa, clothes)),
     ...torso(sp, p, clothes),
-    ...feet(p),
+    ...feet(sp, p),
     ...headBack(sp, p),
     ...head(sp, e, p),
-    ...arms.filter((a) => a.front).flatMap((a) => arm(a, p, clothes)),
+    ...arms.filter((a) => a.front).flatMap((a) => arm(a, pa, clothes)),
   ];
 }
 

@@ -42,8 +42,8 @@ row(
 
 row(
   'avatars.svg',
-  ['dog', 'cat', 'lion', 'tiger', 'bear', 'hamster', 'rabbit'].map((species, i) => ({
-    parts: avatar(species, ['happy', 'thinking', 'laugh', 'talking', 'neutral', 'surprised', 'sad'][i]),
+  ['dog', 'cat', 'lion', 'tiger', 'bear', 'hamster', 'rabbit', 'panda', 'monkey', 'capybara'].map((species, i) => ({
+    parts: avatar(species, ['happy', 'thinking', 'laugh', 'talking', 'neutral', 'surprised', 'sad', 'happy', 'laugh', 'neutral'][i]),
     label: species,
     round: true,
   })),
@@ -57,4 +57,5 @@ row('colors.svg', [
   { parts: animal('dog', 'explaining', { color: 'green' }), label: 'green dog' },
   { parts: animal('bear', 'neutral', { clothes: { kind: 'hoodie', color: '#1CB0F6' } }), label: 'bear in a hoodie' },
   { parts: animal('rabbit', 'asking', { clothes: { kind: 'shirt', color: '#FF4B4B' } }), label: 'rabbit in a shirt' },
+  { parts: animal('panda', 'cheering', { clothes: { kind: 'hoodie', color: '#58CC02' } }), label: 'panda in a hoodie' },
 ]);

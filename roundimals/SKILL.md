@@ -1,6 +1,6 @@
 ---
 name: roundimals
-description: Draws upright cartoon animals (dog, cat, lion, tiger, bear, hamster, rabbit) in a flat, rounded mascot style for apps - quiz hosts, game guides and chat avatars. Three rounded shapes, pill eyes without eyebrows, thick capsule arms with round paws, flat color with at most one shade, on one shared animal body, with a fixed set of poses (neutral, asking, explaining, paw up, cheering, sad, waving, surprised) and avatar expressions, natural or fantasy colors from one hex value, and optional clothes. Use when asked to draw, generate, review or fix a cute flat animal mascot, animal avatar or animal character (SVG, React Native SVG, Skia, canvas, Figma specs), when someone mentions roundimals, or when an animal in this style looks off.
+description: Draws upright cartoon animals (dog, cat, lion, tiger, bear, hamster, rabbit, panda, monkey, capybara) in a flat, rounded mascot style for apps - quiz hosts, game guides and chat avatars. Three rounded shapes, pill eyes without eyebrows, thick capsule arms with round paws, flat color with at most one shade, on one shared animal body, with a fixed set of poses (neutral, asking, explaining, paw up, cheering, sad, waving, surprised) and avatar expressions, natural or fantasy colors from one hex value, and optional clothes. Use when asked to draw, generate, review or fix a cute flat animal mascot, animal avatar or animal character (SVG, React Native SVG, Skia, canvas, Figma specs), when someone mentions roundimals, or when an animal in this style looks off.
 ---
 
 # Roundimals
@@ -25,12 +25,12 @@ Draw every animal in one frame: **the head is 100 units wide and its center is (
 
 ## 2. The shared body (head width = 100)
 
-All seven animals use the same body. Only the ears, the head markings, the tail and sometimes the torso width change.
+All ten animals use the same body. Only the ears, the head markings, the tail and sometimes the torso width (and for the capybara the head outline) change.
 
 | Part | Shape | Size | Value in the kit |
 |---|---|---|---|
 | Head | Rounded rectangle, nearly a capsule | 100 x 112, corner radius 46 | y -58 to 54 |
-| Torso | Tombstone: half-circle top (round shoulders), straight sides, rounded bottom | 1.28 x the head (1.4 for bear and hamster) | top 44 (hidden behind the chin), bottom 160 |
+| Torso | Tombstone: half-circle top (round shoulders), straight sides, rounded bottom | 1.28 x the head (1.4 for bear, hamster and panda, 1.44 for capybara) | top 44 (hidden behind the chin), bottom 160 |
 | Belly | Light pill on the torso | 0.56 x the torso width | center y 120 |
 | Neck | None: the head sits on the torso | n/a | n/a |
 | Feet | Two pills in front of the torso bottom | 50 x 30 | centers (±30, 166) |
@@ -43,7 +43,7 @@ All seven animals use the same body. Only the ears, the head markings, the tail 
 | Thumb, index finger | Capsule | width 15 (1/3 of the paw) | n/a |
 | Floor shadow | Pill | 150 x 10 | y 186 |
 
-## 3. The seven animals
+## 3. The ten animals
 
 Each animal is told by its signature shapes. Keep them big and few.
 
@@ -56,10 +56,15 @@ Each animal is told by its signature shapes. Keep them big and few.
 | Bear | Big round ears (r 20), light inner circle | Light muzzle | None (from the front) | 140 |
 | Hamster | Small round ears (r 15), pink inner | Big light cheek circles (r 19) that break the head outline | None | 140 |
 | Rabbit | Long capsule ears (30 thick, about 0.9 x the head long), pink inner capsule | Light muzzle, pink nose | Light cotton circle | 128 |
+| Panda | Round dark ears (r 19), no inner | White head without a muzzle; two dark eye patches: tilted pills (37 x 52) whose bottoms point outward, with a gap between them. Body, arms and feet are dark, the belly white | None | 140 |
+| Monkey | Round ears on the sides of the head (r 20, at eye height), light inner | Light face mask: two circles around the eyes plus a wide muzzle pill, one shape in one color | Long thin capsule curling up | 128 |
+| Capybara | Tiny round ears (r 11) at the top corners | Its own head: wider, flatter, boxier (112 x 106, corner radius 32); a wide muzzle (86 x 44) with two nostril pills instead of the triangle nose | None | 144 |
 
 - **Ears behind, except floppy ones.** Upright ears, the mane and the inner ears are drawn before the head. Floppy dog ears hang in front of the head, at its sides, and must not touch the eyes.
 - **The tail goes on the side opposite the gesturing arm** (the kit puts it on the left of the image). A tail next to a raised or crossing arm turns into a tangle.
 - **No whiskers, no claws, no toe beans, no fur tufts.** They are detail the style does not have.
+- **Dark parts take the dark color all the way:** a panda's arms and paws are the pattern color with no shade step, and a closed eye on a dark eye patch is a light stroke.
+- **Eye cuts take the color around the eye:** fur, the monkey's light mask or the panda's dark patch. Keep the cut inside the eye's box, or it paints over the face.
 - **Do not add more animals by mixing**: a new animal gets one or two signature shapes on the same body, chosen the same way as above.
 
 ## 4. Arms and paws
@@ -130,7 +135,7 @@ The kit's eight poses cover the usual app moments:
 4. Torso, belly (or clothes)
 5. Feet
 6. Mane, upright ears, inner ears
-7. Head, eyes and eye cuts, markings, cheeks, muzzle, nose, mouth, tear
+7. Head, eye patches or face mask, eyes and eye cuts, markings, cheeks, muzzle, nose, mouth, tear
 8. Floppy ears
 9. Arms in front (bare arm, then paw on top)
 
@@ -147,6 +152,9 @@ The kit's eight poses cover the usual app moments:
 | Bear | #A56644 | #E8BC8E | n/a | #3C1F12 |
 | Hamster | #FFB863 | #FFF6EA | inner ear #FFB2B2 | #F57F86 |
 | Rabbit | #F2D3B6 | #FFFFFF | inner ear #FFB2B2 | #F57F86 |
+| Panda | #FFFFFF (head, belly) | #FFFFFF | body, ears, patches #3D3B4F | #3D3B4F |
+| Monkey | #7A4B33 | face mask #F4CDA5 | #5A3220 | #5A3220 |
+| Capybara | #C0824F | #E9C29A | #8E5A33 | #5C3618 |
 
 **Each animal has:** fur, furShade (one step darker), light (muzzle, belly, inner ear), feature (closed eyes, mouth strokes), nose, pattern (mane, stripes, floppy ears), inner (inner ear). Face colors are fixed: eye white #FFFFFF, pupil #3C3C3C, open mouth #B03A3A, tongue #F15A5A, tear #7FD4FF.
 
@@ -193,12 +201,15 @@ Tested fantasy starting points (the kit's `FANTASY` names): blue #1CB0F6, purple
 | A square-headed cat | Pointed ears starting at the head's outer edge, continuing the straight side | Ear bases further in and lower, the outer corner tucked behind the head |
 | A pointing paw with no finger | The paw and index ran past the image frame | Shorter reach, wider frame (x -160 to 160) |
 | Eyes nibbled from below | Hamster cheeks placed too high | Cheeks lower (center y 33), only touching the eye's bottom edge |
+| A panda in glasses | Upright eye patches touching in the middle | Patches tilted (bottoms outward) with a gap between them |
+| A white panda vanished on a light app background | White body, only arms dark | Dark body with a white belly, like a real panda |
+| A capybara that read as a bear | Same round head and triangle nose as the bear | Wider, boxier head, long wide muzzle, two nostrils, tiny ears |
 | A gray cat looked lifeless and off-style | Gray fur | Cool pastel (lilac-blue) fur, pink inner ear and nose |
 | A ball on the shoulder | The arm's round end at the torso's top corner | Shoulder lower and further in, fully inside the torso |
 
 ## Reference files
 
 - `reference/measurements.md`: every number of the shared body and the reasoning behind it.
-- `reference/kit.mjs`: a dependency-free JavaScript kit (Node 18+). It draws all seven animals in eight poses and seven avatar expressions, with natural or fantasy colors and optional clothes, following every rule above. Each function returns plain shape data, and `toSvg()` turns it into SVG. Port the geometry unchanged to React Native SVG, Skia or canvas.
+- `reference/kit.mjs`: a dependency-free JavaScript kit (Node 18+). It draws all ten animals in eight poses and seven avatar expressions, with natural or fantasy colors and optional clothes, following every rule above. Each function returns plain shape data, and `toSvg()` turns it into SVG. Port the geometry unchanged to React Native SVG, Skia or canvas.
 - `reference/render.mjs`: writes one animal as an SVG file (`node reference/render.mjs <animal> <pose|avatar:expression> [--color] [--clothes] [--size] [--background] [--round]`).
 - `reference/render-sheet.mjs`: writes a contact sheet of everything. Run it after any change to the kit and look at the result before showing anyone.

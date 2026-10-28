@@ -32,7 +32,8 @@ Rules that hold everywhere:
 |---|---|---|
 | Head | 100 x 112, corner radius 46 | Nearly a capsule: reads as an animal, leaves room for ears on top |
 | Neck | none | Animals read cuter with the head sitting on the body; the torso top hides behind the chin |
-| Torso | 128 wide (140 for bear and hamster), tombstone, y 44 to 160 | A short, chubby body (about 1.3 x the head) keeps the head dominant, like a mascot |
+| Torso | 128 wide (140 for bear, hamster and panda, 144 for capybara), tombstone, y 44 to 160 | A short, chubby body (about 1.3 x the head) keeps the head dominant, like a mascot |
+| Capybara head | 112 x 106, corner radius 32 | The only head outline of its own: wide and boxy is the capybara's signature |
 | Arm | 36 | Thick enough to never read as a stick |
 | Paw | radius 23 (diameter 46) | At 50 the paws next to the short torso looked swollen |
 | Shoulder | (±38, 98) | Fully inside the torso: half width there is 63, the arm's end reaches 56 |

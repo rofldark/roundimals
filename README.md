@@ -6,7 +6,7 @@
 
 ![Status](https://img.shields.io/badge/status-work%20in%20progress-orange) ![Node](https://img.shields.io/badge/node-18%2B-green) ![Dependencies](https://img.shields.io/badge/dependencies-none-blue) ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
-<img width="100%" alt="A dog, cat, lion, tiger, bear, hamster and rabbit, waving, asking, cheering, giving a paw up, explaining and looking surprised" src="example.png" />
+<img width="100%" alt="A dog, cat, lion, tiger, bear, hamster, rabbit, panda, monkey and capybara in different poses" src="example.png" />
 
 </div>
 
@@ -14,7 +14,7 @@
 
 ## Overview
 
-Seven animals share one body built from three rounded shapes: **dog, cat, lion, tiger, bear, hamster and rabbit**. Each one gets eight poses for typical app moments and seven avatar expressions for chats:
+Ten animals share one body built from three rounded shapes: **dog, cat, lion, tiger, bear, hamster, rabbit, panda, monkey and capybara**. Each one gets eight poses for typical app moments and seven avatar expressions for chats:
 
 - **Poses:** neutral, asking, explaining, paw up, cheering, sad, waving, surprised
 - **Avatar expressions:** neutral, happy, laugh, thinking, surprised, sad, talking
@@ -31,7 +31,7 @@ Everything comes out as plain SVG, ready for web, iOS or Android apps.
 
 **Chat avatars** with different expressions
 
-<img width="100%" alt="Round chat avatars of all seven animals with different expressions" src="docs/img/avatars.png" />
+<img width="100%" alt="Round chat avatars of all ten animals with different expressions" src="docs/img/avatars.png" />
 
 **Fantasy colors and optional clothes**
 
@@ -41,7 +41,7 @@ The preview images are made with `node scripts/make-gallery.mjs <folder>`.
 
 ## Why use it?
 
-Agents draw cartoon animals inconsistently: each one in a different style, with stick arms, whiskers and outlines, and teeth that vanish on a light muzzle. This skill gives Claude one shared body with fixed proportions, a short list of signature shapes for each animal, and a table of mistakes already made with the fix for each. The result is seven animals that look drawn by the same hand.
+Agents draw cartoon animals inconsistently: each one in a different style, with stick arms, whiskers and outlines, and teeth that vanish on a light muzzle. This skill gives Claude one shared body with fixed proportions, a short list of signature shapes for each animal, and a table of mistakes already made with the fix for each. The result is ten animals that look drawn by the same hand.
 
 ## Requirements
 
@@ -80,7 +80,7 @@ node reference/render-sheet.mjs out   # contact sheet of everything: out/sheet.s
 
 | Option (render.mjs) | Meaning | Example |
 |---|---|---|
-| `<animal>` | dog, cat, lion, tiger, bear, hamster, rabbit | `lion` |
+| `<animal>` | dog, cat, lion, tiger, bear, hamster, rabbit, panda, monkey, capybara | `lion` |
 | `<pose>` or `avatar:<expression>` | one of the poses, or an avatar expression | `asking`, `avatar:talking` |
 | `--color` | fantasy color: blue, purple, pink, green, red, yellow or any hex | `--color "#1CB0F6"` |
 | `--clothes` | `shirt` or `hoodie`, then a color | `--clothes shirt:#FF4B4B` |
@@ -90,7 +90,7 @@ node reference/render-sheet.mjs out   # contact sheet of everything: out/sheet.s
 
 ## Reference
 
-- **[SKILL.md](./roundimals/SKILL.md)**: the rules, proportions, the seven animals, poses, colors, a checklist and the mistakes to avoid.
+- **[SKILL.md](./roundimals/SKILL.md)**: the rules, proportions, the ten animals, poses, colors, a checklist and the mistakes to avoid.
 - **[reference/measurements.md](./roundimals/reference/measurements.md)**: every number of the shared body and the reasoning behind it.
 - **[reference/kit.mjs](./roundimals/reference/kit.mjs)**: the drawing kit (Node 18+, no dependencies). Port the geometry to React Native SVG, Skia or canvas unchanged.
 
