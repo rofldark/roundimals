@@ -1,22 +1,22 @@
 // scripts/make-video.mjs
-// Writes the frames of a short square promo video (1080 x 1080, 30 fps, 13 s) as SVG files:
+// Writes the frames of a short square promo video (1080 x 1080, 30 fps, 14 s) as SVG files:
 //   0-4 s   the ten animals pop in, wave, blink and cheer
-//   4-8 s   one tiger moves smoothly through its poses
-//   8-11 s  a lion hops and changes color on every landing
-//   11-13 s end card with the avatars and the demo address
+//   4-10 s  one tiger moves smoothly through its poses, up to waiting and sleeping
+//   10-12 s a lion hops and changes color on every landing
+//   12-14 s end card with the avatars and the demo address
 // Usage: node scripts/make-video.mjs <folder>
 // Then screenshot every frame at 1080 x 1080 and encode, for example:
 //   ffmpeg -framerate 30 -i <folder>/frame-%04d.png -c:v libx264 -pix_fmt yuv420p -crf 18 roundimals.mp4
 import fs from 'node:fs';
 import path from 'node:path';
-import { custom, avatar, partToSvg, SHOULDER } from '../roundimals/reference/kit.mjs';
+import { custom, avatar, partToSvg, SHOULDER, zzz, thoughtDots } from '../roundimals/reference/kit.mjs';
 
 const out = process.argv[2] ?? 'video-frames';
 fs.mkdirSync(out, { recursive: true });
 
 const W = 1080;
 const FPS = 30;
-const DURATION = 13;
+const DURATION = 14;
 const BG = '#F7F7F7';
 const INK = '#3C3C3C';
 const MUTED = '#777777';
@@ -38,9 +38,9 @@ const swing = (elbow, len, deg) => {
 const blinkAt = (t, at) => ((t - at) % 3 + 3) % 3 < 0.1;
 
 /** A whole animal: the floor shadow stays down, the rest can hop; `pop` scales it in. */
-function actor(species, e, arms, { x, y, scale, hop = 0, pop = 1, color } = {}) {
+function actor(species, e, arms, { x, y, scale, hop = 0, pop = 1, color, over } = {}) {
   if (pop <= 0) return '';
-  const [shadow, ...rest] = custom(species, e, arms, color ? { color } : {});
+  const [shadow, ...rest] = custom(species, e, arms, { ...(color ? { color } : {}), over });
   const sx = 1 - hop / 80;
   return (
     `<g transform="translate(${x} ${y}) scale(${(scale * pop).toFixed(4)})">` +
@@ -83,7 +83,7 @@ function sceneCast(t) {
 }
 
 // ── scene 2: one tiger, smooth poses ────────────────────────────────────────
-/** Each pose as [left arm, right arm, expression]; a straight arm gets its elbow halfway. */
+/** Each pose as [name, [left arm, right arm], expression, accents]; a straight arm gets its elbow halfway. */
 const mid = (a) => ({ ...a, elbow: a.elbow ?? [(a.from[0] + a.to[0]) / 2, (a.from[1] + a.to[1]) / 2] });
 const POSE_SEQ = [
   ['neutral', [hang(-1), hang(1)], SMILE],
@@ -91,8 +91,10 @@ const POSE_SEQ = [
   ['paw up', [{ from: [-S.x, S.y], elbow: [-100, 128], to: [-100, 60], paw: 'thumb', side: -1 }, hang(1)], HAPPY],
   ['cheering', [{ from: [-S.x, S.y], to: [-110, -26], side: -1 }, { from: [S.x, S.y], to: [110, -26], side: 1 }], { eyes: 'closedHappy', mouth: 'laugh' }],
   ['asking', [hang(-1), { from: [S.x, S.y], elbow: [98, 122], to: [30, 64], side: 1, front: true, shade: true }], { eyes: 'open', mouth: 'flat', look: [5, -4] }],
+  ['waiting', [hang(-1), { from: [S.x, S.y], elbow: [98, 122], to: [30, 64], side: 1, front: true, shade: true }], { eyes: 'open', mouth: 'flat', look: [5, -5] }, thoughtDots],
+  ['sleeping', [hang(-1, 66), hang(1, 66)], { eyes: 'sleep', mouth: 'snore' }, zzz],
   ['neutral', [hang(-1), hang(1)], SMILE],
-].map(([name, arms, e]) => [name, arms.map(mid), e]);
+].map(([name, arms, e, over]) => [name, arms.map(mid), e, over]);
 function blendArm(a, b, k) {
   const p = (u, v) => [lerp(u[0], v[0], k), lerp(u[1], v[1], k)];
   const late = k > 0.5 ? b : a;
@@ -103,12 +105,16 @@ function scenePoses(t) {
   const i = Math.min(POSE_SEQ.length - 2, Math.floor(t / STEP));
   const local = t - i * STEP;
   const k = ease(clamp((local - 0.45) / 0.35));
-  const [nameA, armsA, eA] = POSE_SEQ[i];
-  const [nameB, armsB, eB] = POSE_SEQ[i + 1];
+  const [nameA, armsA, eA, overA] = POSE_SEQ[i];
+  const [nameB, armsB, eB, overB] = POSE_SEQ[i + 1];
   const arms = [0, 1].map((j) => blendArm(armsA[j], armsB[j], k));
   const e = k > 0.5 ? eB : eA;
   const name = k > 0.5 ? nameB : nameA;
-  return text(W / 2, 150, '8 poses for app moments', 64) + text(W / 2, 214, name, 44, MUTED, 400) + actor('tiger', e, arms, { x: W / 2, y: 520, scale: 1.45 });
+  // accents (dots, Z's) build up one by one while their pose holds
+  const accent = k > 0.5 ? overB : overA;
+  const shown = 1 + Math.floor((k > 0.5 ? local - 0.6 : local + 0.2) * 5);
+  const over = accent ? (p) => accent(p, Math.max(0, Math.min(3, shown))) : undefined;
+  return text(W / 2, 150, '10 poses for app moments', 64) + text(W / 2, 214, name, 44, MUTED, 400) + actor('tiger', e, arms, { x: W / 2, y: 520, scale: 1.45, over });
 }
 
 // ── scene 3: a lion changing color ──────────────────────────────────────────
@@ -147,9 +153,9 @@ function sceneEnd(t) {
 
 const SCENES = [
   [0, 4, sceneCast],
-  [4, 8.8, scenePoses],
-  [8.8, 11.4, sceneColors],
-  [11.4, DURATION, sceneEnd],
+  [4, 9.8, scenePoses],
+  [9.8, 12.4, sceneColors],
+  [12.4, DURATION, sceneEnd],
 ];
 const FADE = 0.25;
 const total = Math.round(DURATION * FPS);

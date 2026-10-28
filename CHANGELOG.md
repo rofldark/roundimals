@@ -4,10 +4,16 @@ All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
+
+## [0.4.0] – 2026-10-28
 ### Added
 - Two new poses: `sleeping` (empty states, with floating Z's) and `waiting` (a thought bubble with three dots, for loading screens), plus a `sleeping` avatar expression. Ten poses and eight avatar expressions in total.
+- `zzz()` and `thoughtDots()` in the kit, with a count for animating them; `custom()` takes `held` and `over` extras.
 - App mockups in the README (quiz host, lesson complete, chat avatars) from `scripts/make-mockups.mjs`.
-- `scripts/make-video.mjs`: frames for a 13-second square promo video (cast, poses, colors, end card).
+- `scripts/make-video.mjs`: frames for a 14-second square promo video (cast, poses, colors, end card).
+
+### Changed
+- Title GIF, still image, social preview and avatar row show the new poses: a waiting rabbit and a sleeping capybara.
 
 ## [0.3.0] – 2026-10-28
 ### Added

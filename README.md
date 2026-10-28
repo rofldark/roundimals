@@ -6,7 +6,7 @@
 
 ![Release](https://img.shields.io/github/v/release/rofldark/roundimals) ![Dependencies](https://img.shields.io/badge/dependencies-none-blue) ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
-<img width="100%" alt="A dog, cat, lion, tiger, bear, hamster, rabbit, panda, monkey and capybara waving, cheering, hopping and blinking" src="example.gif" />
+<img width="100%" alt="A dog, cat, lion, tiger, bear, hamster, rabbit, panda, monkey and capybara waving, cheering, hopping, waiting and sleeping" src="example.gif" />
 
 **[Try it in your browser](https://rofldark.github.io/roundimals/)** — pick an animal, a pose and a color, download SVG or PNG. No install.
 

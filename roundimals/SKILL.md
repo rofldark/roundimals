@@ -102,7 +102,7 @@ Each animal is told by its signature shapes. Keep them big and few.
   | surprised | Smaller pupils | Small dark "o" pill |
   | sad | Lid slanting down toward the outside, pupils down, a tear | Downturned stroke |
   | talking | Open | Small open mouth |
-  | sleeping | Closed: relaxed downward arcs (light on a dark eye patch) | Small round open mouth; two or three floating Z's |
+  | sleeping | Closed: relaxed downward arcs (light on a dark eye patch) | Small round open mouth; three floating Z's on the full body (none on a round avatar, the crop would cut them) |
 
 - **A big smile is an open mouth.** People in this style smile with a white tooth shape; on an animal it sits on the light muzzle and disappears.
 - **Closed eyes and mouth strokes** use the feature color (a dark tone of the fur), never black.

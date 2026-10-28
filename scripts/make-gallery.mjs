@@ -43,7 +43,7 @@ row(
 row(
   'avatars.svg',
   ['dog', 'cat', 'lion', 'tiger', 'bear', 'hamster', 'rabbit', 'panda', 'monkey', 'capybara'].map((species, i) => ({
-    parts: avatar(species, ['happy', 'thinking', 'laugh', 'talking', 'neutral', 'surprised', 'sad', 'happy', 'laugh', 'neutral'][i]),
+    parts: avatar(species, ['happy', 'thinking', 'laugh', 'talking', 'neutral', 'surprised', 'sad', 'happy', 'laugh', 'sleeping'][i]),
     label: species,
     round: true,
   })),

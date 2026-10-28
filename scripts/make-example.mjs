@@ -12,10 +12,10 @@ const cast = [
   ['tiger', 'pawUp'],
   ['bear', 'explaining'],
   ['hamster', 'surprised'],
-  ['rabbit', 'neutral'],
+  ['rabbit', 'waiting'],
   ['panda', 'pawUp'],
   ['monkey', 'cheering'],
-  ['capybara', 'waving'],
+  ['capybara', 'sleeping'],
 ];
 const W = 2500;
 const H = 520;

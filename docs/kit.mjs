@@ -512,22 +512,22 @@ export function arm(spec, p, clothes, only) {
   return clothes ? [paw, capsule] : [capsule, paw];
 }
 
-/** Floating "Z"s for a sleeping animal: rounded strokes, growing up and away from the head. */
-function zzz(p) {
+/** Floating "Z"s for a sleeping animal: rounded strokes, growing up and away from the head. `n` shows only the first ones (for animation). */
+export function zzz(p, n = 3) {
   return [
     [58, -58, 9],
     [76, -84, 12],
     [98, -116, 15],
-  ].map(([x, y, s]) => line(`M${x - s / 2} ${y - s / 2}H${x + s / 2}L${x - s / 2} ${y + s / 2}H${x + s / 2}`, p.zzz, s * 0.32));
+  ].slice(0, n).map(([x, y, s]) => line(`M${x - s / 2} ${y - s / 2}H${x + s / 2}L${x - s / 2} ${y + s / 2}H${x + s / 2}`, p.zzz, s * 0.32));
 }
 
-/** A thought bubble with three dots ("one moment…"), rising from the head: two small circles, then the bubble. */
-function thoughtDots(p) {
+/** A thought bubble with three dots ("one moment…"), rising from the head: two small circles, then the bubble. `n` shows only the first dots (for animation). */
+export function thoughtDots(p, n = 3) {
   return [
     fill(circle(52, -64, 6), p.bubble),
     fill(circle(64, -82, 9), p.bubble),
     fill(rrect(54, -138, 100, 48, 24), p.bubble),
-    ...[80, 104, 128].map((x) => fill(circle(x, -114, 7), p.zzz)),
+    ...[80, 104, 128].slice(0, n).map((x) => fill(circle(x, -114, 7), p.zzz)),
   ];
 }
 
@@ -666,7 +666,8 @@ export function avatar(species, expressionId = 'neutral', opts = {}) {
   const { sp, p, c } = resolve(species, opts);
   const e = EXPRESSIONS[expressionId];
   if (!e) throw new Error(`Unknown expression "${expressionId}". Use one of: ${Object.keys(EXPRESSIONS).join(', ')}`);
-  return [...torso(sp, p, c, 150), ...headBack(sp, p), ...head(sp, e, p), ...(e.eyes === 'sleep' ? zzz(p).slice(0, 2) : [])];
+  // no Z's on an avatar: a round crop cuts them off, the closed eyes and the small mouth already say "asleep"
+  return [...torso(sp, p, c, 150), ...headBack(sp, p), ...head(sp, e, p)];
 }
 
 /** The frame (in head units) that fits an animal: full body or avatar. */

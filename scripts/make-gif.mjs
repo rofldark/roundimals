@@ -6,7 +6,7 @@
 // Then screenshot each frame (W x H below) and join them into a GIF at 50 ms per frame.
 import fs from 'node:fs';
 import path from 'node:path';
-import { custom, partToSvg, SHOULDER } from '../roundimals/reference/kit.mjs';
+import { custom, partToSvg, SHOULDER, zzz, thoughtDots } from '../roundimals/reference/kit.mjs';
 
 const out = process.argv[2] ?? 'gif-frames';
 const FRAMES = Number(process.argv[3] ?? 40);
@@ -40,13 +40,15 @@ const cast = [
     const h = Math.max(0, Math.sin(TAU * 2 * t + 3));
     return { e: { eyes: 'wide', mouth: 'o' }, arms: [-1, 1].map((s) => ({ from: [s * S.x, S.y], elbow: [s * 102, 112], to: [s * 74, 40], side: s })), hop: 16 * h };
   }],
-  ['rabbit', (t) => ({ e: blink(t, 0.1, SMILE), arms: [hang(-1), hang(1)], hop: 12 * Math.max(0, Math.sin(TAU * 2 * t + 4)) })],
+  // waiting: the three dots appear one after another, like a chat's "typing…"
+  ['rabbit', (t) => ({ e: { eyes: 'open', mouth: 'flat', look: [5, -5] }, arms: [hang(-1), { from: [S.x, S.y], elbow: [98, 122], to: [30, 64], side: 1, front: true, shade: true }], over: (p) => thoughtDots(p, Math.floor(t * 8) % 4) })],
   ['panda', (t) => ({ e: blink(t, 0.55, HAPPY), arms: [hang(-1), { from: [S.x, S.y], elbow: [104, 100], to: swing([104, 100], 71, 8 + 22 * Math.sin(TAU * 2 * t + 2)), paw: 'wave', side: 1 }] })],
   ['monkey', (t) => {
     const k = Math.sin(TAU * 2 * t + 2.5);
     return { e: { eyes: 'closedHappy', mouth: 'laugh' }, arms: [-1, 1].map((s) => ({ from: [s * S.x, S.y], to: [s * 110, -26 + 16 * k], side: s })), hop: 10 * Math.max(0, -k) };
   }],
-  ['capybara', (t) => ({ e: blink(t, 0.85, SMILE), arms: [hang(-1), hang(1)] })],
+  // sleeping: the Z's rise one after another
+  ['capybara', (t) => ({ e: { eyes: 'sleep', mouth: 'snore' }, arms: [hang(-1, 66), hang(1, 66)], over: (p) => zzz(p, Math.floor(t * 4) % 4) })],
 ];
 
 export const W = 2500;
@@ -56,8 +58,8 @@ for (let f = 0; f < FRAMES; f++) {
   const t = f / FRAMES;
   const body = cast
     .map(([species, act], i) => {
-      const { e, arms, hop = 0 } = act(t);
-      const [shadow, ...rest] = custom(species, e, arms);
+      const { e, arms, hop = 0, over } = act(t);
+      const [shadow, ...rest] = custom(species, e, arms, { over });
       // the shadow stays on the ground and shrinks a little while the animal is in the air
       const sx = 1 - hop / 80;
       return (

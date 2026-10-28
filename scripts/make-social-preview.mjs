@@ -9,7 +9,7 @@ const W = 1280;
 const H = 640;
 const rows = [
   [['dog', 'waving'], ['cat', 'asking'], ['lion', 'cheering'], ['tiger', 'pawUp'], ['bear', 'explaining']],
-  [['hamster', 'surprised'], ['rabbit', 'neutral'], ['panda', 'pawUp'], ['monkey', 'cheering'], ['capybara', 'waving']],
+  [['hamster', 'surprised'], ['rabbit', 'waiting'], ['panda', 'pawUp'], ['monkey', 'cheering'], ['capybara', 'sleeping']],
 ];
 const STEP = 230;
 const SCALE = 0.6;
