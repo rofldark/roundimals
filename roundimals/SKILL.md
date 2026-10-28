@@ -1,6 +1,6 @@
 ---
 name: roundimals
-description: Draws upright cartoon animals (dog, cat, lion, tiger, bear, hamster, rabbit, panda, monkey, capybara) in a flat, rounded mascot style for apps - quiz hosts, game guides and chat avatars. Three rounded shapes, pill eyes without eyebrows, thick capsule arms with round paws, flat color with at most one shade, on one shared animal body, with a fixed set of poses (neutral, asking, explaining, paw up, cheering, sad, waving, surprised) and avatar expressions, natural or fantasy colors from one hex value, and optional clothes. Use when asked to draw, generate, review or fix a cute flat animal mascot, animal avatar or animal character (SVG, React Native SVG, Skia, canvas, Figma specs), when someone mentions roundimals, or when an animal in this style looks off.
+description: Draws upright cartoon animals (dog, cat, lion, tiger, bear, hamster, rabbit, panda, monkey, capybara) in a flat, rounded mascot style for apps - quiz hosts, game guides and chat avatars. Three rounded shapes, pill eyes without eyebrows, thick capsule arms with round paws, flat color with at most one shade, on one shared animal body, with a fixed set of poses (neutral, asking, explaining, paw up, cheering, sad, waving, surprised, sleeping, waiting) and avatar expressions, natural or fantasy colors from one hex value, and optional clothes. Use when asked to draw, generate, review or fix a cute flat animal mascot, animal avatar or animal character (SVG, React Native SVG, Skia, canvas, Figma specs), when someone mentions roundimals, or when an animal in this style looks off.
 ---
 
 # Roundimals
@@ -102,6 +102,7 @@ Each animal is told by its signature shapes. Keep them big and few.
   | surprised | Smaller pupils | Small dark "o" pill |
   | sad | Lid slanting down toward the outside, pupils down, a tear | Downturned stroke |
   | talking | Open | Small open mouth |
+  | sleeping | Closed: relaxed downward arcs (light on a dark eye patch) | Small round open mouth; two or three floating Z's |
 
 - **A big smile is an open mouth.** People in this style smile with a white tooth shape; on an animal it sits on the light muzzle and disappears.
 - **Closed eyes and mouth strokes** use the feature color (a dark tone of the fur), never black.
@@ -109,7 +110,7 @@ Each animal is told by its signature shapes. Keep them big and few.
 
 ## 6. Poses
 
-The kit's eight poses cover the usual app moments:
+The kit's ten poses cover the usual app moments:
 
 | Pose | App moment | How |
 |---|---|---|
@@ -121,11 +122,15 @@ The kit's eight poses cover the usual app moments:
 | sad | Wrong answer | Arms close to the body, sad eyes, tear |
 | waving | Hello, onboarding | Bent arm up, four toes fanned |
 | surprised | Unexpected result | Both paws beside the face at the silhouette edge, wide eyes, "o" |
+| sleeping | Empty state ("no messages yet"), night mode | Arms close to the body, sleeping eyes, small open mouth, three Z's growing up and away from the head |
+| waiting | Loading, wait screens | Holding an hourglass in front of the belly, looking down at it: arms, then hourglass, then the gripping paws on top |
 
 - **Silhouette test:** fill the animal in one color; the gesture must still read.
 - **Size test:** check at the smallest size the image ships at (for example 48 px for a chat avatar). The eyes and the gesture must still read.
 - **Avatar:** head and shoulders, no arms, no tail. In a round crop, keep the face centered and let the torso run off the bottom.
 - **Speech bubble:** put it on the side the explaining arm points to.
+- **Floating Z's:** each "Z" is one rounded stroke (no sharp corners), in a soft blue-violet (#8C93D9); keep them few and small.
+- **Held objects:** elbows tuck in low at the sides; the paws grip the object's edges. Elbows pushed out level with the object read as wings.
 
 ## 7. Layer order (back to front)
 
@@ -207,11 +212,12 @@ Tested fantasy starting points (the kit's `FANTASY` names): blue #1CB0F6, purple
 | A capybara that read as a pig | Two round nostril dots on a light muzzle | Flat nostril pills on a darker snout |
 | An angry capybara | Nostrils slanted like a "\ /" | Flat, horizontal nostrils |
 | A gray cat looked lifeless and off-style | Gray fur | Cool pastel (lilac-blue) fur, pink inner ear and nose |
+| Arms like wings while holding something | Elbows pushed far out to the sides, level with the object | Elbows low and close to the body, paws gripping the object's edges |
 | A ball on the shoulder | The arm's round end at the torso's top corner | Shoulder lower and further in, fully inside the torso |
 
 ## Reference files
 
 - `reference/measurements.md`: every number of the shared body and the reasoning behind it.
-- `reference/kit.mjs`: a dependency-free JavaScript kit (Node 18+). It draws all ten animals in eight poses and seven avatar expressions, poses of your own (`custom()`), natural or fantasy colors and optional clothes, following every rule above. Each function returns plain shape data, and `toSvg()` turns it into SVG. Port the geometry unchanged to React Native SVG, Skia or canvas.
+- `reference/kit.mjs`: a dependency-free JavaScript kit (Node 18+). It draws all ten animals in ten poses and eight avatar expressions, poses of your own (`custom()`), natural or fantasy colors and optional clothes, following every rule above. Each function returns plain shape data, and `toSvg()` turns it into SVG. Port the geometry unchanged to React Native SVG, Skia or canvas.
 - `reference/render.mjs`: writes one animal as an SVG file (`node reference/render.mjs <animal> <pose|avatar:expression> [--color] [--clothes] [--size] [--background] [--round]`).
 - `reference/render-sheet.mjs`: writes a contact sheet of everything. Run it after any change to the kit and look at the result before showing anyone.

@@ -43,8 +43,8 @@ Mockups of a made-up app, drawn with `node scripts/make-mockups.mjs`: a quiz hos
 ## Features
 
 - **10 animals on one shared body:** dog, cat, lion, tiger, bear, hamster, rabbit, panda, monkey and capybara
-- **8 poses** for app moments: neutral, asking, explaining, paw up, cheering, sad, waving, surprised
-- **7 avatar expressions** for chats: neutral, happy, laugh, thinking, surprised, sad, talking
+- **10 poses** for app moments: neutral, asking, explaining, paw up, cheering, sad, waving, surprised, sleeping (empty states), waiting (loading screens)
+- **8 avatar expressions** for chats: neutral, happy, laugh, thinking, surprised, sad, talking, sleeping
 - **Any color** from a single value ("a blue lion"), natural colors by default, never gray
 - **Optional clothes:** shirt or hoodie
 - **Plain SVG output** from a dependency-free renderer, easy to port to React Native SVG, Skia, SwiftUI or canvas
@@ -53,9 +53,9 @@ Mockups of a made-up app, drawn with `node scripts/make-mockups.mjs`: a quiz hos
 
 ## Preview
 
-**Eight poses for app moments** (here: the tiger)
+**Ten poses for app moments** (here: the tiger)
 
-<img width="100%" alt="The tiger in eight poses: neutral, asking, explaining, paw up, cheering, sad, waving, surprised" src="docs/img/poses.png" />
+<img width="100%" alt="The tiger in ten poses: neutral, asking, explaining, paw up, cheering, sad, waving, surprised, sleeping, waiting" src="docs/img/poses.png" />
 
 **Chat avatars** with different expressions
 
@@ -90,7 +90,7 @@ Ask Claude, for example:
 - "Draw an SVG of a tiger asking a quiz question, roundimals style."
 - "Make a round chat avatar of a happy hamster on a light blue background."
 - "I need a blue lion cheering for my language app's level-complete screen, as React Native SVG."
-- "Give me the rabbit in all eight poses in a green hoodie."
+- "Give me the rabbit in all ten poses in a green hoodie."
 - "Review this mascot and tell me what breaks the roundimals style."
 
 Or render directly with the kit:

@@ -93,7 +93,7 @@ const FEATURE_W = 4.6;
 
 // ── colors ──────────────────────────────────────────────────────────────────
 /** Fixed face colors, the same for every animal. */
-export const FACE = { eyeWhite: '#FFFFFF', pupil: '#3C3C3C', mouth: '#B03A3A', tongue: '#F15A5A', teeth: '#FFFFFF', tear: '#7FD4FF' };
+export const FACE = { eyeWhite: '#FFFFFF', pupil: '#3C3C3C', mouth: '#B03A3A', tongue: '#F15A5A', teeth: '#FFFFFF', tear: '#7FD4FF', zzz: '#8C93D9', sand: '#FFC800', glass: '#5A5E73' };
 
 function hexToRgb(hex) {
   const n = parseInt(hex.replace('#', ''), 16);
@@ -251,6 +251,7 @@ export const EXPRESSIONS = {
   surprised: { eyes: 'wide', mouth: 'o' },
   sad: { eyes: 'sad', mouth: 'sad', look: [0, 6], tear: true },
   talking: { eyes: 'open', mouth: 'talk', look: [2, 0] },
+  sleeping: { eyes: 'sleep', mouth: 'snore' },
 };
 
 /** Eye cuts in units from the eye center: `lid` [outer, inner] hides everything above; `cheek` [outer, inner] everything below. */
@@ -266,6 +267,8 @@ function eye(side, e, p, around) {
   const closed = around === p.pattern ? p.light : p.feature;
   // a blink: a flat closed eye, for animation frames
   if (e.eyes === 'blink') return [line(`M${cx - 10} ${cy + 3}H${cx + 10}`, closed, FEATURE_W)];
+  // asleep: a relaxed downward arc, the opposite of the happy closed eye
+  if (e.eyes === 'sleep') return [line(`M${cx - 10} ${cy + 1}Q${cx} ${cy + 10} ${cx + 10} ${cy + 1}`, closed, FEATURE_W)];
   if (e.eyes === 'closedHappy') return [line(`M${cx - 10} ${cy + 5}Q${cx} ${cy - 9} ${cx + 10} ${cy + 5}`, closed, FEATURE_W)];
   const out = [fill(pill(cx, cy, EYE.w, EYE.h), p.eyeWhite)];
   const wide = e.eyes === 'wide';
@@ -322,6 +325,10 @@ function mouth(e, p, sp) {
       break;
     case 'sad':
       out.push(line('M-8 40Q1 33 11 39', p.feature, FEATURE_W));
+      break;
+    case 'snore':
+      // a small, round open mouth, smaller than surprise
+      out.push(fill(pill(2, 39, 8, 9), p.mouth));
       break;
     case 'o':
       out.push(fill(pill(1, 38, 11, 13), p.mouth));
@@ -487,7 +494,7 @@ function pawLocal(kind, side, color) {
  *            paw: 'ball' | 'thumb' | 'point' | 'wave', side: -1 (left of the image) | 1,
  *            front?: arm in front of the body, shade?: paw over the face (one step darker) }
  */
-export function arm(spec, p, clothes) {
+export function arm(spec, p, clothes, only) {
   const [hx, hy] = spec.to;
   const [bx, by] = spec.elbow ?? spec.from;
   const len = Math.hypot(hx - bx, hy - by) || 1;
@@ -499,7 +506,33 @@ export function arm(spec, p, clothes) {
   const end = clothes ? [hx - ux * ARM.cuff, hy - uy * ARM.cuff] : spec.paw === 'wave' ? [hx, hy] : [hx - ux * 6, hy - uy * 6];
   const pts = spec.elbow ? [spec.from, spec.elbow, end] : [spec.from, end];
   const capsule = line(`M${pts.map(([x, y]) => `${f(x)} ${f(y)}`).join('L')}`, clothes ? clothes.color : p.fur, ARM.w);
+  // a paw gripping an object goes on top of it: the caller draws the arm, the object, then the paw
+  if (spec.grip) return only === 'paw' ? [paw] : [capsule];
+  if (only === 'paw') return [];
   return clothes ? [paw, capsule] : [capsule, paw];
+}
+
+/** Floating "Z"s for a sleeping animal: rounded strokes, growing up and away from the head. */
+function zzz(p) {
+  return [
+    [58, -58, 9],
+    [76, -84, 12],
+    [98, -116, 15],
+  ].map(([x, y, s]) => line(`M${x - s / 2} ${y - s / 2}H${x + s / 2}L${x - s / 2} ${y + s / 2}H${x + s / 2}`, p.zzz, s * 0.32));
+}
+
+/** An hourglass held in front of the belly: two rounded triangles of sand between two caps. */
+function hourglass(cx, cy, p) {
+  const w = 27;
+  const h = 36;
+  return [
+    fill(rtri([cx - w, cy - h], [cx + w, cy - h], [cx, cy], 5), p.glass),
+    fill(rtri([cx - w, cy + h], [cx + w, cy + h], [cx, cy], 5), p.glass),
+    fill(rtri([cx - w + 7, cy - h + 6], [cx + w - 7, cy - h + 6], [cx, cy - 3], 3), p.sand),
+    fill(rtri([cx - w + 9, cy + h - 3], [cx + w - 9, cy + h - 3], [cx, cy + 12], 3), p.sand),
+    fill(pill(cx, cy - h - 2, 2 * w + 14, 10), p.glass),
+    fill(pill(cx, cy + h + 2, 2 * w + 14, 10), p.glass),
+  ];
 }
 
 // ── poses ───────────────────────────────────────────────────────────────────
@@ -510,9 +543,10 @@ const hanging = (side, x = 74) => ({ from: [side * S.x, S.y], to: [side * x, 150
  * The whole animal in the layer order of SKILL.md: tail, arms behind, torso
  * and belly, feet, mane and ears, head, front arms (paws on top).
  */
-function fullBody(sp, e, p, arms, clothes) {
+function fullBody(sp, e, p, arms, clothes, extra = {}) {
   // a panda's arms and paws are dark: the pattern color, with no lighter or darker step
   const pa = sp.dark ? { ...p, fur: p.pattern, furShade: p.pattern } : p;
+  const front = arms.filter((a) => a.front);
   return [
     floorShadow(0, 186, 150),
     ...tail(sp, p),
@@ -521,7 +555,11 @@ function fullBody(sp, e, p, arms, clothes) {
     ...feet(sp, p),
     ...headBack(sp, p),
     ...head(sp, e, p),
-    ...arms.filter((a) => a.front).flatMap((a) => arm(a, pa, clothes)),
+    // front arms, then a held object, then the paws that grip it
+    ...front.flatMap((a) => arm(a, pa, clothes)),
+    ...(extra.held ?? []),
+    ...front.filter((a) => a.grip).flatMap((a) => arm(a, pa, clothes, 'paw')),
+    ...(extra.over ?? []),
   ];
 }
 
@@ -573,6 +611,23 @@ export const POSES = {
       ],
       c,
     ),
+
+  /** Empty states ("no messages yet"): asleep, arms relaxed close to the body, three floating Z's. */
+  sleeping: (sp, p, c) => fullBody(sp, EXPRESSIONS.sleeping, p, [hanging(-1, 66), hanging(1, 66)], c, { over: zzz(p) }),
+
+  /** Wait and loading screens: holding an hourglass in front of the belly and looking at it. */
+  waiting: (sp, p, c) =>
+    fullBody(
+      sp,
+      { eyes: 'open', mouth: 'flat', look: [0, 7] },
+      p,
+      [
+        { from: [-S.x, S.y], elbow: [-84, 158], to: [-40, 114], side: -1, front: true, grip: true },
+        { from: [S.x, S.y], elbow: [84, 158], to: [40, 114], side: 1, front: true, grip: true },
+      ],
+      c,
+      { held: hourglass(0, 112, p) },
+    ),
 };
 
 // ── public entry points ─────────────────────────────────────────────────────
@@ -615,7 +670,7 @@ export function avatar(species, expressionId = 'neutral', opts = {}) {
   const { sp, p, c } = resolve(species, opts);
   const e = EXPRESSIONS[expressionId];
   if (!e) throw new Error(`Unknown expression "${expressionId}". Use one of: ${Object.keys(EXPRESSIONS).join(', ')}`);
-  return [...torso(sp, p, c, 150), ...headBack(sp, p), ...head(sp, e, p)];
+  return [...torso(sp, p, c, 150), ...headBack(sp, p), ...head(sp, e, p), ...(e.eyes === 'sleep' ? zzz(p).slice(0, 2) : [])];
 }
 
 /** The frame (in head units) that fits an animal: full body or avatar. */
