@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 ### Added
-- Two new poses: `sleeping` (empty states, with floating Z's) and `waiting` (holding an hourglass, for loading screens), plus a `sleeping` avatar expression. Ten poses and eight avatar expressions in total.
+- Two new poses: `sleeping` (empty states, with floating Z's) and `waiting` (a thought bubble with three dots, for loading screens), plus a `sleeping` avatar expression. Ten poses and eight avatar expressions in total.
 - App mockups in the README (quiz host, lesson complete, chat avatars) from `scripts/make-mockups.mjs`.
 - `scripts/make-video.mjs`: frames for a 13-second square promo video (cast, poses, colors, end card).
 

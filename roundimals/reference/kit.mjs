@@ -93,7 +93,7 @@ const FEATURE_W = 4.6;
 
 // ── colors ──────────────────────────────────────────────────────────────────
 /** Fixed face colors, the same for every animal. */
-export const FACE = { eyeWhite: '#FFFFFF', pupil: '#3C3C3C', mouth: '#B03A3A', tongue: '#F15A5A', teeth: '#FFFFFF', tear: '#7FD4FF', zzz: '#8C93D9', sand: '#FFC800', glass: '#5A5E73' };
+export const FACE = { eyeWhite: '#FFFFFF', pupil: '#3C3C3C', mouth: '#B03A3A', tongue: '#F15A5A', teeth: '#FFFFFF', tear: '#7FD4FF', zzz: '#8C93D9', bubble: '#E3E6FA' };
 
 function hexToRgb(hex) {
   const n = parseInt(hex.replace('#', ''), 16);
@@ -521,17 +521,13 @@ function zzz(p) {
   ].map(([x, y, s]) => line(`M${x - s / 2} ${y - s / 2}H${x + s / 2}L${x - s / 2} ${y + s / 2}H${x + s / 2}`, p.zzz, s * 0.32));
 }
 
-/** An hourglass held in front of the belly: two rounded triangles of sand between two caps. */
-function hourglass(cx, cy, p) {
-  const w = 27;
-  const h = 36;
+/** A thought bubble with three dots ("one moment…"), rising from the head: two small circles, then the bubble. */
+function thoughtDots(p) {
   return [
-    fill(rtri([cx - w, cy - h], [cx + w, cy - h], [cx, cy], 5), p.glass),
-    fill(rtri([cx - w, cy + h], [cx + w, cy + h], [cx, cy], 5), p.glass),
-    fill(rtri([cx - w + 7, cy - h + 6], [cx + w - 7, cy - h + 6], [cx, cy - 3], 3), p.sand),
-    fill(rtri([cx - w + 9, cy + h - 3], [cx + w - 9, cy + h - 3], [cx, cy + 12], 3), p.sand),
-    fill(pill(cx, cy - h - 2, 2 * w + 14, 10), p.glass),
-    fill(pill(cx, cy + h + 2, 2 * w + 14, 10), p.glass),
+    fill(circle(52, -64, 6), p.bubble),
+    fill(circle(64, -82, 9), p.bubble),
+    fill(rrect(54, -138, 100, 48, 24), p.bubble),
+    ...[80, 104, 128].map((x) => fill(circle(x, -114, 7), p.zzz)),
   ];
 }
 
@@ -615,18 +611,15 @@ export const POSES = {
   /** Empty states ("no messages yet"): asleep, arms relaxed close to the body, three floating Z's. */
   sleeping: (sp, p, c) => fullBody(sp, EXPRESSIONS.sleeping, p, [hanging(-1, 66), hanging(1, 66)], c, { over: zzz(p) }),
 
-  /** Wait and loading screens: holding an hourglass in front of the belly and looking at it. */
+  /** Wait and loading screens: paw at the chin, eyes up, a thought bubble with three dots. */
   waiting: (sp, p, c) =>
     fullBody(
       sp,
-      { eyes: 'open', mouth: 'flat', look: [0, 7] },
+      { eyes: 'open', mouth: 'flat', look: [5, -5] },
       p,
-      [
-        { from: [-S.x, S.y], elbow: [-84, 158], to: [-40, 114], side: -1, front: true, grip: true },
-        { from: [S.x, S.y], elbow: [84, 158], to: [40, 114], side: 1, front: true, grip: true },
-      ],
+      [hanging(-1), { from: [S.x, S.y], elbow: [98, 122], to: [30, 64], side: 1, front: true, shade: true }],
       c,
-      { held: hourglass(0, 112, p) },
+      { over: thoughtDots(p) },
     ),
 };
 
@@ -662,7 +655,10 @@ export function custom(species, expression = 'neutral', arms = [], opts = {}) {
   const { sp, p, c } = resolve(species, opts);
   const e = typeof expression === 'string' ? EXPRESSIONS[expression] : expression;
   if (!e) throw new Error(`Unknown expression "${expression}". Use one of: ${Object.keys(EXPRESSIONS).join(', ')}`);
-  return fullBody(sp, e, p, arms, c);
+  // held: drawn between the front arms and their gripping paws; over: on top of everything.
+  // Either can be a list of parts or a function of the resolved palette.
+  const extra = (x) => (typeof x === 'function' ? x(p) : x);
+  return fullBody(sp, e, p, arms, c, { held: extra(opts.held), over: extra(opts.over) });
 }
 
 /** Parts for a chat avatar: head and shoulders only, no arms. */

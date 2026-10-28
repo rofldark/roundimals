@@ -123,13 +123,13 @@ The kit's ten poses cover the usual app moments:
 | waving | Hello, onboarding | Bent arm up, four toes fanned |
 | surprised | Unexpected result | Both paws beside the face at the silhouette edge, wide eyes, "o" |
 | sleeping | Empty state ("no messages yet"), night mode | Arms close to the body, sleeping eyes, small open mouth, three Z's growing up and away from the head |
-| waiting | Loading, wait screens | Holding an hourglass in front of the belly, looking down at it: arms, then hourglass, then the gripping paws on top |
+| waiting | Loading, wait screens | Paw at the chin, eyes up to the side, a thought bubble with three dots ("one moment…") rising from the head: two small circles, then a pill with three dots |
 
 - **Silhouette test:** fill the animal in one color; the gesture must still read.
 - **Size test:** check at the smallest size the image ships at (for example 48 px for a chat avatar). The eyes and the gesture must still read.
 - **Avatar:** head and shoulders, no arms, no tail. In a round crop, keep the face centered and let the torso run off the bottom.
 - **Speech bubble:** put it on the side the explaining arm points to.
-- **Floating Z's:** each "Z" is one rounded stroke (no sharp corners), in a soft blue-violet (#8C93D9); keep them few and small.
+- **Floating accents:** each "Z" is one rounded stroke (no sharp corners) in a soft blue-violet (#8C93D9); the thought bubble is a pale lavender (#E3E6FA) with dots in the same blue-violet. Keep them few and small.
 - **Held objects:** elbows tuck in low at the sides; the paws grip the object's edges. Elbows pushed out level with the object read as wings.
 
 ## 7. Layer order (back to front)
@@ -179,7 +179,7 @@ Tested fantasy starting points (the kit's `FANTASY` names): blue #1CB0F6, purple
 
 1. **Read the request:** which animal, the app moment (pose or avatar expression), the size it ships at, natural or fantasy color, clothes, output format.
 2. **Start from the kit** when code is wanted: `animal(species, pose, { color, clothes })` or `avatar(species, expression, opts)`, then `toSvg(parts, { frame: frameFor(species, kind) })`. From the command line: `node reference/render.mjs lion cheering --color blue > lion.svg`.
-3. **New pose:** place the shoulder (inside the torso), the elbow (breaking the silhouette when the forearm crosses the body) and the paw center; keep the two segments similar in length. Put the tail on the other side. In code, `custom(species, expression, arms, opts)` draws it; the expression can be an object such as `{ eyes: 'blink', mouth: 'smile' }`. For animation frames, keep the shoulders fixed, turn the forearm around the elbow, and lift everything but the first part (the floor shadow) for a hop.
+3. **New pose:** place the shoulder (inside the torso), the elbow (breaking the silhouette when the forearm crosses the body) and the paw center; keep the two segments similar in length. Put the tail on the other side. In code, `custom(species, expression, arms, opts)` draws it; the expression can be an object such as `{ eyes: 'blink', mouth: 'smile' }`, and `opts.held` / `opts.over` add an object between the arms and gripping paws (arms with `grip: true`) or accents on top (a list of parts, or a function of the palette). For animation frames, keep the shoulders fixed, turn the forearm around the elbow, and lift everything but the first part (the floor shadow) for a hop.
 4. **New animal:** one or two signature shapes on the shared body (section 3), a natural palette with the same keys.
 5. **Render and check:** run the checklist and view the result at its final size. After changing the kit, run `node reference/render-sheet.mjs out` and look at `out/sheet.svg`.
 6. **Fix what reads poorly** by changing the pose before adding shapes.
@@ -212,6 +212,7 @@ Tested fantasy starting points (the kit's `FANTASY` names): blue #1CB0F6, purple
 | A capybara that read as a pig | Two round nostril dots on a light muzzle | Flat nostril pills on a darker snout |
 | An angry capybara | Nostrils slanted like a "\ /" | Flat, horizontal nostrils |
 | A gray cat looked lifeless and off-style | Gray fur | Cool pastel (lilac-blue) fur, pink inner ear and nose |
+| A loading prop nobody could read | A small hourglass, clock or phone held in front of the belly: the paws cover it and its details vanish at app size | A thought bubble with three dots above the head: everyone knows it from chats, and nothing covers it |
 | Arms like wings while holding something | Elbows pushed far out to the sides, level with the object | Elbows low and close to the body, paws gripping the object's edges |
 | A ball on the shoulder | The arm's round end at the torso's top corner | Shoulder lower and further in, fully inside the torso |
 
