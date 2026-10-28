@@ -6,7 +6,7 @@
 
 ![Status](https://img.shields.io/badge/status-work%20in%20progress-orange) ![Node](https://img.shields.io/badge/node-18%2B-green) ![Dependencies](https://img.shields.io/badge/dependencies-none-blue) ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
-<img width="100%" alt="A dog, cat, lion, tiger, bear, hamster, rabbit, panda, monkey and capybara in different poses" src="example.png" />
+<img width="100%" alt="A dog, cat, lion, tiger, bear, hamster, rabbit, panda, monkey and capybara waving, cheering, hopping and blinking" src="example.gif" />
 
 </div>
 
@@ -49,6 +49,12 @@ Agents draw cartoon animals inconsistently: each one in a different style, with 
 - Optional: Node.js 18+ to run the drawing kit locally (no dependencies)
 
 ## Install
+
+```bash
+npx skills@latest add rofldark/roundimals
+```
+
+Or by hand:
 
 - **Claude Code:** copy the `roundimals` folder into `~/.claude/skills/` (every project) or into `.claude/skills/` inside one project.
 - **Claude apps (web or desktop):** zip the `roundimals` folder (or download `roundimals.zip` from a release) and upload it in Settings, under Capabilities, Skills.

@@ -264,6 +264,8 @@ function eye(side, e, p, around) {
   const [lx, ly] = e.look ?? [0, 0];
   // a closed eye on a dark eye patch is light, everywhere else the feature color
   const closed = around === p.pattern ? p.light : p.feature;
+  // a blink: a flat closed eye, for animation frames
+  if (e.eyes === 'blink') return [line(`M${cx - 10} ${cy + 3}H${cx + 10}`, closed, FEATURE_W)];
   if (e.eyes === 'closedHappy') return [line(`M${cx - 10} ${cy + 5}Q${cx} ${cy - 9} ${cx + 10} ${cy + 5}`, closed, FEATURE_W)];
   const out = [fill(pill(cx, cy, EYE.w, EYE.h), p.eyeWhite)];
   const wide = e.eyes === 'wide';
@@ -592,6 +594,20 @@ export function animal(species, poseId = 'neutral', opts = {}) {
   const { sp, p, c } = resolve(species, opts);
   if (!POSES[poseId]) throw new Error(`Unknown pose "${poseId}". Use one of: ${Object.keys(POSES).join(', ')}`);
   return POSES[poseId](sp, p, c);
+}
+
+/**
+ * Parts for a pose of your own: an expression (an EXPRESSIONS id or an object
+ * like { eyes: 'blink', mouth: 'smile' }) and arm specs as described at arm().
+ * The first part is the floor shadow, so an animation can lift the rest.
+ *   custom('dog', 'happy', [{ from: [38, 98], elbow: [104, 100], to: [114, 30], paw: 'wave', side: 1 }])
+ * Arms you leave out are not drawn: pass hanging ones for an idle side.
+ */
+export function custom(species, expression = 'neutral', arms = [], opts = {}) {
+  const { sp, p, c } = resolve(species, opts);
+  const e = typeof expression === 'string' ? EXPRESSIONS[expression] : expression;
+  if (!e) throw new Error(`Unknown expression "${expression}". Use one of: ${Object.keys(EXPRESSIONS).join(', ')}`);
+  return fullBody(sp, e, p, arms, c);
 }
 
 /** Parts for a chat avatar: head and shoulders only, no arms. */

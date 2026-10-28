@@ -174,7 +174,7 @@ Tested fantasy starting points (the kit's `FANTASY` names): blue #1CB0F6, purple
 
 1. **Read the request:** which animal, the app moment (pose or avatar expression), the size it ships at, natural or fantasy color, clothes, output format.
 2. **Start from the kit** when code is wanted: `animal(species, pose, { color, clothes })` or `avatar(species, expression, opts)`, then `toSvg(parts, { frame: frameFor(species, kind) })`. From the command line: `node reference/render.mjs lion cheering --color blue > lion.svg`.
-3. **New pose:** place the shoulder (inside the torso), the elbow (breaking the silhouette when the forearm crosses the body) and the paw center; keep the two segments similar in length. Put the tail on the other side.
+3. **New pose:** place the shoulder (inside the torso), the elbow (breaking the silhouette when the forearm crosses the body) and the paw center; keep the two segments similar in length. Put the tail on the other side. In code, `custom(species, expression, arms, opts)` draws it; the expression can be an object such as `{ eyes: 'blink', mouth: 'smile' }`. For animation frames, keep the shoulders fixed, turn the forearm around the elbow, and lift everything but the first part (the floor shadow) for a hop.
 4. **New animal:** one or two signature shapes on the shared body (section 3), a natural palette with the same keys.
 5. **Render and check:** run the checklist and view the result at its final size. After changing the kit, run `node reference/render-sheet.mjs out` and look at `out/sheet.svg`.
 6. **Fix what reads poorly** by changing the pose before adding shapes.
@@ -212,6 +212,6 @@ Tested fantasy starting points (the kit's `FANTASY` names): blue #1CB0F6, purple
 ## Reference files
 
 - `reference/measurements.md`: every number of the shared body and the reasoning behind it.
-- `reference/kit.mjs`: a dependency-free JavaScript kit (Node 18+). It draws all ten animals in eight poses and seven avatar expressions, with natural or fantasy colors and optional clothes, following every rule above. Each function returns plain shape data, and `toSvg()` turns it into SVG. Port the geometry unchanged to React Native SVG, Skia or canvas.
+- `reference/kit.mjs`: a dependency-free JavaScript kit (Node 18+). It draws all ten animals in eight poses and seven avatar expressions, poses of your own (`custom()`), natural or fantasy colors and optional clothes, following every rule above. Each function returns plain shape data, and `toSvg()` turns it into SVG. Port the geometry unchanged to React Native SVG, Skia or canvas.
 - `reference/render.mjs`: writes one animal as an SVG file (`node reference/render.mjs <animal> <pose|avatar:expression> [--color] [--clothes] [--size] [--background] [--round]`).
 - `reference/render-sheet.mjs`: writes a contact sheet of everything. Run it after any change to the kit and look at the result before showing anyone.

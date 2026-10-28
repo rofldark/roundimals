@@ -4,6 +4,10 @@ All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
+### Added
+- Install with `npx skills@latest add rofldark/roundimals`.
+- Animated README title (`example.gif`): all ten animals waving, cheering, hopping and blinking; frames from `scripts/make-gif.mjs`.
+- `custom()` in the kit for poses of your own, and a `blink` eye state for animation frames.
 
 ## [0.2.0] – 2026-10-28
 ### Added
