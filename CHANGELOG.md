@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
+### Added
+- App mockups in the README (quiz host, lesson complete, chat avatars) from `scripts/make-mockups.mjs`.
 
 ## [0.3.0] – 2026-10-28
 ### Added

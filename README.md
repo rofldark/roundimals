@@ -34,6 +34,12 @@ Then ask Claude for a mascot. Other ways to install are [further down](#other-wa
 
 Both images are plain SVG, made by the skill's own drawing kit.
 
+## In an app
+
+<img width="100%" alt="Three phone mockups: a tiger asking a quiz question, a blue lion cheering on a lesson-complete screen, and a chat with round panda and hamster avatars" src="docs/img/mockups.png" />
+
+Mockups of a made-up app, drawn with `node scripts/make-mockups.mjs`: a quiz host, a lesson-complete screen and chat avatars.
+
 ## Features
 
 - **10 animals on one shared body:** dog, cat, lion, tiger, bear, hamster, rabbit, panda, monkey and capybara
