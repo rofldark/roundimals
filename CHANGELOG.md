@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Install with `npx skills@latest add rofldark/roundimals`.
 - Animated README title (`example.gif`): all ten animals waving, cheering, hopping and blinking; frames from `scripts/make-gif.mjs`, joined with `scripts/assemble-gif.py`.
 - `custom()` in the kit for poses of your own, and a `blink` eye state for animation frames.
+- Browser demo on GitHub Pages (https://rofldark.github.io/roundimals/): pick an animal, pose or avatar expression, color, clothes and background, then download SVG or PNG or copy the SVG code. Uses a copy of the kit, kept in sync with `scripts/sync-demo.mjs`.
+- Social preview image (`docs/img/social-preview.png`) from `scripts/make-social-preview.mjs`.
 
 ### Changed
 - README starts with the install command and a concrete example (prompt plus result) right under the animated title; features as a short list.

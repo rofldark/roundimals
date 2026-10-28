@@ -8,6 +8,8 @@
 
 <img width="100%" alt="A dog, cat, lion, tiger, bear, hamster, rabbit, panda, monkey and capybara waving, cheering, hopping and blinking" src="example.gif" />
 
+**[Try it in your browser](https://rofldark.github.io/roundimals/)** — pick an animal, a pose and a color, download SVG or PNG. No install.
+
 </div>
 
 ## Install

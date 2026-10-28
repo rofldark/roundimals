@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'">
+  <title>Roundimals – try it in your browser</title>
+  <meta name="description" content="Pick an animal, a pose and a color, and download a cute, consistent SVG mascot. The same drawing kit as the Roundimals Claude skill.">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <span class="brand">Roundimals</span>
+      <a href="https://github.com/rofldark/roundimals">GitHub</a>
+    </div>
+  </header>
+
+  <main>
+    <h1>Make a mascot</h1>
+    <p class="lead">Pick an animal, a pose and a color, then download the SVG or PNG. Everything is drawn in your browser by the same kit the Claude skill uses.</p>
+
+    <div class="layout">
+      <section class="controls" aria-label="Options">
+        <fieldset>
+          <legend>Animal</legend>
+          <div class="grid" id="animals"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Type</legend>
+          <label><input type="radio" name="kind" value="body" checked> Full body</label>
+          <label><input type="radio" name="kind" value="avatar"> Chat avatar</label>
+        </fieldset>
+
+        <fieldset id="poseBox">
+          <legend>Pose</legend>
+          <select id="pose"></select>
+        </fieldset>
+
+        <fieldset id="exprBox" hidden>
+          <legend>Expression</legend>
+          <select id="expression"></select>
+          <label><input type="checkbox" id="round" checked> Round crop</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Color</legend>
+          <label><input type="radio" name="colorMode" value="natural" checked> Natural</label>
+          <label><input type="radio" name="colorMode" value="custom"> Custom</label>
+          <input type="color" id="color" value="#1cb0f6" aria-label="Custom color" disabled>
+        </fieldset>
+
+        <fieldset>
+          <legend>Clothes</legend>
+          <select id="clothes">
+            <option value="">None</option>
+            <option value="shirt">Shirt</option>
+            <option value="hoodie">Hoodie</option>
+          </select>
+          <input type="color" id="clothesColor" value="#58cc02" aria-label="Clothes color" disabled>
+        </fieldset>
+
+        <fieldset>
+          <legend>Background</legend>
+          <label><input type="checkbox" id="bgOn"> Fill</label>
+          <input type="color" id="bg" value="#ddf4ff" aria-label="Background color" disabled>
+        </fieldset>
+      </section>
+
+      <section class="result" aria-label="Result">
+        <div class="stage" id="stage"></div>
+        <div class="actions">
+          <button type="button" id="dlSvg">Download SVG</button>
+          <button type="button" id="dlPng">Download PNG</button>
+          <button type="button" id="copy">Copy SVG code</button>
+          <span class="status" id="status" role="status"></span>
+        </div>
+      </section>
+    </div>
+
+    <h2>Use it with Claude</h2>
+    <p>Install the skill and ask Claude for a mascot in any pose, color or format (SVG, React Native SVG, SwiftUI, canvas):</p>
+    <pre><code>npx skills@latest add rofldark/roundimals</code></pre>
+    <p>More in the <a href="https://github.com/rofldark/roundimals#readme">README</a>. MIT licensed.</p>
+  </main>
+</body>
+</html>
