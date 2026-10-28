@@ -1,0 +1,8 @@
+# local project notes (contain local paths)
+CLAUDE.md
+
+# build output
+*.zip
+out/
+sheet-out/
+node_modules/
