@@ -23,6 +23,22 @@ Seven animals share one body built from three rounded shapes: **dog, cat, lion, 
 
 Everything comes out as plain SVG, ready for web, iOS or Android apps.
 
+## Preview
+
+**Eight poses for app moments** (here: the tiger)
+
+<img width="100%" alt="The tiger in eight poses: neutral, asking, explaining, paw up, cheering, sad, waving, surprised" src="docs/img/poses.png" />
+
+**Chat avatars** with different expressions
+
+<img width="100%" alt="Round chat avatars of all seven animals with different expressions" src="docs/img/avatars.png" />
+
+**Fantasy colors and optional clothes**
+
+<img width="100%" alt="A blue lion, pink cat, purple hamster, green dog, a bear in a hoodie and a rabbit in a shirt" src="docs/img/colors.png" />
+
+The preview images are made with `node scripts/make-gallery.mjs <folder>`.
+
 ## Why use it?
 
 Agents draw cartoon animals inconsistently: each one in a different style, with stick arms, whiskers and outlines, and teeth that vanish on a light muzzle. This skill gives Claude one shared body with fixed proportions, a short list of signature shapes for each animal, and a table of mistakes already made with the fix for each. The result is seven animals that look drawn by the same hand.
