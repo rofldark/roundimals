@@ -2,26 +2,46 @@
 
 # Roundimals
 
-**A Claude skill that draws cute, flat, rounded animal mascots for your apps: quiz hosts, game guides and chat avatars.**
+**A Claude skill for cute, consistent SVG animal mascots: the same ten characters in every pose and expression, for apps, games, chat avatars and playful interfaces.**
 
-![Status](https://img.shields.io/badge/status-work%20in%20progress-orange) ![Node](https://img.shields.io/badge/node-18%2B-green) ![Dependencies](https://img.shields.io/badge/dependencies-none-blue) ![License](https://img.shields.io/badge/license-MIT-lightgrey)
+![Release](https://img.shields.io/github/v/release/rofldark/roundimals) ![Dependencies](https://img.shields.io/badge/dependencies-none-blue) ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
 <img width="100%" alt="A dog, cat, lion, tiger, bear, hamster, rabbit, panda, monkey and capybara waving, cheering, hopping and blinking" src="example.gif" />
 
 </div>
 
-> **Early version (0.2.0).** Shapes, poses and rules may still change between releases. Feedback is welcome.
+## Install
 
-## Overview
+```bash
+npx skills@latest add rofldark/roundimals
+```
 
-Ten animals share one body built from three rounded shapes: **dog, cat, lion, tiger, bear, hamster, rabbit, panda, monkey and capybara**. Each one gets eight poses for typical app moments and seven avatar expressions for chats:
+Then ask Claude for a mascot. Other ways to install are [further down](#other-ways-to-install).
 
-- **Poses:** neutral, asking, explaining, paw up, cheering, sad, waving, surprised
-- **Avatar expressions:** neutral, happy, laugh, thinking, surprised, sad, talking
-- **Colors:** natural by default, or any fantasy color from a single value ("a blue lion"). Gray is never used.
-- **Clothes:** optional shirt or hoodie, off by default
+## Example
 
-Everything comes out as plain SVG, ready for web, iOS or Android apps.
+> "Draw a blue lion cheering for my language app's level-complete screen."
+>
+> "Make a round chat avatar of a happy hamster."
+
+<p>
+<img height="200" alt="A blue lion cheering with both arms up" src="docs/img/example-blue-lion.svg" />
+&nbsp;&nbsp;
+<img height="120" alt="A round chat avatar of a laughing hamster on light blue" src="docs/img/example-hamster-avatar.svg" />
+</p>
+
+Both images are plain SVG, made by the skill's own drawing kit.
+
+## Features
+
+- **10 animals on one shared body:** dog, cat, lion, tiger, bear, hamster, rabbit, panda, monkey and capybara
+- **8 poses** for app moments: neutral, asking, explaining, paw up, cheering, sad, waving, surprised
+- **7 avatar expressions** for chats: neutral, happy, laugh, thinking, surprised, sad, talking
+- **Any color** from a single value ("a blue lion"), natural colors by default, never gray
+- **Optional clothes:** shirt or hoodie
+- **Plain SVG output** from a dependency-free renderer, easy to port to React Native SVG, Skia, SwiftUI or canvas
+
+> **Early release** — feedback and contributions are welcome! Shapes and rules may still change between releases.
 
 ## Preview
 
@@ -48,13 +68,7 @@ Agents draw cartoon animals inconsistently: each one in a different style, with 
 - Claude Code, or the Claude apps (web or desktop) with Skills enabled
 - Optional: Node.js 18+ to run the drawing kit locally (no dependencies)
 
-## Install
-
-```bash
-npx skills@latest add rofldark/roundimals
-```
-
-Or by hand:
+## Other ways to install
 
 - **Claude Code:** copy the `roundimals` folder into `~/.claude/skills/` (every project) or into `.claude/skills/` inside one project.
 - **Claude apps (web or desktop):** zip the `roundimals` folder (or download `roundimals.zip` from a release) and upload it in Settings, under Capabilities, Skills.

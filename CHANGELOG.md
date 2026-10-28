@@ -9,6 +9,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Animated README title (`example.gif`): all ten animals waving, cheering, hopping and blinking; frames from `scripts/make-gif.mjs`, joined with `scripts/assemble-gif.py`.
 - `custom()` in the kit for poses of your own, and a `blink` eye state for animation frames.
 
+### Changed
+- README starts with the install command and a concrete example (prompt plus result) right under the animated title; features as a short list.
+
 ## [0.2.0] – 2026-10-28
 ### Added
 - Three more animals: panda (dark body, eye patches), monkey (face mask, side ears, long tail) and capybara (its own boxy head, a darker blunt snout, flat nostrils and a split "ω" smile). Ten animals in total.
