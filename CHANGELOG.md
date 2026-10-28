@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
+
+## [0.2.0] – 2026-10-28
 ### Added
 - Three more animals: panda (dark body, eye patches), monkey (face mask, side ears, long tail) and capybara (its own boxy head, a darker blunt snout, flat nostrils and a split "ω" smile). Ten animals in total.
 - README preview images (poses, chat avatars, fantasy colors and clothes) and `scripts/make-gallery.mjs` to rebuild them.

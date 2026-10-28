@@ -10,7 +10,7 @@
 
 </div>
 
-> **Work in progress.** This is an early version (0.1.0). Shapes, poses and rules still change with every push until the first release. Feedback is welcome.
+> **Early version (0.2.0).** Shapes, poses and rules may still change between releases. Feedback is welcome.
 
 ## Overview
 
